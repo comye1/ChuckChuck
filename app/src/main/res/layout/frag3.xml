@@ -7,15 +7,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="12dp"
-        android:padding="12dp">
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"
+        android:background="@drawable/round_border">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계정"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="userID"
             android:id="@+id/tv_user"
-            android:textSize="24sp"
-            android:layout_marginBottom="6dp"/>
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -32,11 +46,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:layout_margin="12dp"
+        android:padding="12dp"
+        android:background="@drawable/round_border">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시간표 설정"/>
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:text="시간표"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>
