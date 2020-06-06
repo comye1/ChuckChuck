@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "732498041697",
+    "firebase_url": "https://chuckchuck-ca10f.firebaseio.com",
+    "project_id": "chuckchuck-ca10f",
+    "storage_bucket": "chuckchuck-ca10f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732498041697:android:9e2e1472c2c7a67a118320",
+        "android_client_info": {
+          "package_name": "com.example.chuckchuck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732498041697-8po1bjpe1oqp50tp6p889c1ok2i5i5va.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chuckchuck",
+            "certificate_hash": "64fb71a20e15e3b24e73fe5213b2b5040ade1169"
+          }
+        },
+        {
+          "client_id": "732498041697-6sguqk3r5n839529k41c463kn5h1adjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwFoWwF7gK2jdU9pU35n67pCChDXNCXVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732498041697-6sguqk3r5n839529k41c463kn5h1adjn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

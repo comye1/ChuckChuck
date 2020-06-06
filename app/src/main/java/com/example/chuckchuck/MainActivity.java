@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //authActivity 통해서 result 받기
+
         setContentView(R.layout.activity_main);
 
 
