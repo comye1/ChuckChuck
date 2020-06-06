@@ -24,6 +24,7 @@
         app:itemTextColor="@drawable/navigation_colors"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        android:background="#33691E"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
