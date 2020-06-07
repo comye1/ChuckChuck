@@ -23,8 +23,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +56,20 @@ public class Frag3 extends Fragment{
         tv_revoke = view.findViewById(R.id.tv_revoke);
         btn_addSubject = view.findViewById(R.id.btn_addSubject);
 
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        //초기 화면
-        setTimeTableList();
+
+
 
         //계정 정보 보여줌
         mAuth = FirebaseAuth.getInstance();
         tv_user.setText(mAuth.getCurrentUser().getEmail());
         //show linear2
+
+        //초기 화면
+        subjectList = new ArrayList<>();
+        setTimeTableList();
 
         //로그아웃 대화상자
         tv_logout.setOnClickListener(new View.OnClickListener() {
@@ -131,12 +140,12 @@ public class Frag3 extends Fragment{
                                         dialogView.findViewById(R.id.cb_thu),
                                         dialogView.findViewById(R.id.cb_fri),
                                         dialogView.findViewById(R.id.cb_sat)};
-                        boolean [] checked = new boolean[7];
+                        String checked = "";
                         for(int i=0; i<7; i++){
-                            checked[i] = checkboxes[i].isChecked();
+                            checked += (checkboxes[i].isChecked())? "1" : "0";
                         }
                         //firebase와 listview에 추가하기
-                        addToTimeTableList(subjectname);
+                        addToTimeTableList(subjectname, checked);
                         Toast.makeText(getContext(), subjectname + "추가되었습니다." , Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -159,18 +168,74 @@ public class Frag3 extends Fragment{
         getActivity().finishAffinity();
     }
 
-    private void addToTimeTableList(String subjectName){
-        subjectList.add(0, subjectName);
+    private void addToTimeTableList(String subjectName, String checked){
+        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(subjectName).setValue(checked);
         adapter.notifyDataSetChanged();
 
     }
 
     private void setTimeTableList(){
-        subjectList = new ArrayList<>();
         //firebase에서 읽어오기
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
 
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
         lv_timetable.setAdapter(adapter);
+
+        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            subjectList.add(0, snapshot.getKey());
+                        }
+//                        subjectList.add(0,dataSnapshot.getValue().toString());//dataSnapshot.getValue().toString()
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+//                .addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        subjectList.add(0,dataSnapshot.getKey());//dataSnapshot.getValue().toString()
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+//                .addChildEventListener(new ChildEventListener() {
+//                    @Override
+//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                        subjectList.add(0,dataSnapshot.getKey());//dataSnapshot.getValue().toString()
+//                    }
+//
+//                    @Override
+//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+
     }
 
 }
