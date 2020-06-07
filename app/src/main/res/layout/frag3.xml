@@ -82,7 +82,7 @@
                 android:textStyle="bold"/>
 
             <ImageButton
-                android:id="@+id/btn_subject"
+                android:id="@+id/btn_addSubject"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="right|center_vertical"

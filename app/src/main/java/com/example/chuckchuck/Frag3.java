@@ -7,14 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -22,12 +27,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class Frag3 extends Fragment{
-    private View view;
-    private TextView tv_user, tv_logout, tv_revoke, tv_timetable;
-    private LinearLayout linear1, linear2;
+    private View view, dialogView;
+    private TextView tv_user, tv_logout, tv_revoke;
+    private ImageButton btn_addSubject;
     private ListView lv_timetable;
+    private AlertDialog.Builder builder;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private List<String> subjectList;
@@ -41,6 +48,7 @@ public class Frag3 extends Fragment{
         tv_user = view.findViewById(R.id.tv_user);
         tv_logout = view.findViewById(R.id.tv_logout);
         tv_revoke = view.findViewById(R.id.tv_revoke);
+        btn_addSubject = view.findViewById(R.id.btn_addSubject);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -56,7 +64,7 @@ public class Frag3 extends Fragment{
         tv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("로그아웃 하시겠습니까?");
                 builder.setMessage("기록한 내용은 사라지지 않습니다.");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -74,7 +82,7 @@ public class Frag3 extends Fragment{
         tv_revoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("탈퇴 하시겠습니까?");
                 builder.setMessage("기록한 내용이 모두 사라집니다.");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -88,8 +96,29 @@ public class Frag3 extends Fragment{
                 dialog.show();
             }
         });
+        btn_addSubject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subjectDialog();
+            }
+        });
         return view;
 
+    }
+
+    private void subjectDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_timetable, null);
+        builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("과목 추가");
+        builder.setView(dialogView);
+        builder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "adding", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("취소", null).show();
     }
 
     private void signOut(){
@@ -105,7 +134,7 @@ public class Frag3 extends Fragment{
     private void setTimeTableList(){
         subjectList = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1, subjectList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
 
         lv_timetable.setAdapter(adapter);
 
@@ -141,32 +170,6 @@ public class Frag3 extends Fragment{
 
 
         adapter.notifyDataSetChanged();
-//        setListViewHeightBasedOnChildren(lv_timetable);
     }
 
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-
-
-
-    //출처: https://wkdgusdn3.tistory.com/entry/Android-ScrollView안에-ListVIew-넣을-시-Height-문제 [장삼의 착한코딩]
 }
