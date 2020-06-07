@@ -1,5 +1,7 @@
 package com.example.chuckchuck;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Frag3 extends Fragment {
+public class Frag3 extends Fragment{
     private View view;
     private TextView tv_user, tv_logout, tv_revoke, tv_timetable1, tv_timetable2;
     private LinearLayout linear1, linear2;
@@ -32,33 +35,34 @@ public class Frag3 extends Fragment {
         tv_logout = view.findViewById(R.id.tv_logout);
         tv_revoke = view.findViewById(R.id.tv_revoke);
 
-        linear1.setVisibility(View.VISIBLE);
-        linear2.setVisibility(View.INVISIBLE);
+        //초기 화면
+        showLinear1();
 
+
+        //계정 정보 보여줌
+        tv_user.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        //show linear2
         tv_timetable1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLinear2();
             }
         });
-
+        //show linear1
         tv_timetable2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLinear1();
             }
         });
-
-        tv_user.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
+        //로그아웃 대화상자
         tv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-
-
+        //탈퇴 대화상자
         tv_revoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +70,7 @@ public class Frag3 extends Fragment {
             }
         });
         return view;
+
     }
 
     private void showLinear1(){
