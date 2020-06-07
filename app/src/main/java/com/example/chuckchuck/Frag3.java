@@ -1,13 +1,16 @@
 package com.example.chuckchuck;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +24,7 @@ public class Frag3 extends Fragment{
     private View view;
     private TextView tv_user, tv_logout, tv_revoke, tv_timetable1, tv_timetable2;
     private LinearLayout linear1, linear2;
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -40,7 +44,8 @@ public class Frag3 extends Fragment{
 
 
         //계정 정보 보여줌
-        tv_user.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        mAuth = FirebaseAuth.getInstance();
+        tv_user.setText(mAuth.getCurrentUser().getEmail());
         //show linear2
         tv_timetable1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,14 +64,36 @@ public class Frag3 extends Fragment{
         tv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("로그아웃 하시겠습니까?");
+                builder.setMessage("기록한 내용은 사라지지 않습니다.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        signOut();
+                    }
+                });
+                builder.setNegativeButton("취소",null);
 
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         //탈퇴 대화상자
         tv_revoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("탈퇴 하시겠습니까?");
+                builder.setMessage("기록한 내용이 모두 사라집니다.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        revokeAccess();
+                    }
+                });
+                builder.setNegativeButton("취소", null);
 
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         return view;
@@ -81,5 +108,15 @@ public class Frag3 extends Fragment{
     private void showLinear2(){
         linear2.setVisibility(View.VISIBLE);
         linear1.setVisibility(View.INVISIBLE);
+    }
+
+    private void signOut(){
+        FirebaseAuth.getInstance().signOut();
+        getActivity().finishAffinity();
+    }
+
+    private void revokeAccess(){
+        mAuth.getCurrentUser().delete();
+        getActivity().finishAffinity();
     }
 }
