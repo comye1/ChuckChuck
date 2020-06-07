@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <EditText
         android:id="@+id/et_subjectName"
@@ -17,37 +17,37 @@
         android:gravity="center_horizontal">
         <CheckBox
             android:id="@+id/cb_mon"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="월"    />
         <CheckBox
             android:id="@+id/cb_tue"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="화"    />
         <CheckBox
             android:id="@+id/cb_wed"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="수"    />
         <CheckBox
             android:id="@+id/cb_thu"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="목"    />
         <CheckBox
             android:id="@+id/cb_fri"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="금"    />
         <CheckBox
             android:id="@+id/cb_sat"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="토"    />

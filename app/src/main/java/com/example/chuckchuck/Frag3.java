@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,6 +39,7 @@ public class Frag3 extends Fragment{
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private List<String> subjectList;
+    private ArrayAdapter<String> adapter;
 
     @Nullable
     @Override
@@ -115,10 +117,36 @@ public class Frag3 extends Fragment{
         builder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "adding", Toast.LENGTH_SHORT).show();
+                        EditText et_name = dialogView.findViewById(R.id.et_subjectName);
+                        String subjectname = et_name.getText().toString();
+                        if(subjectname.replace(" ", "").equals("")){
+                            Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        CheckBox [] checkboxes =
+                                        {dialogView.findViewById(R.id.cb_sun),
+                                        dialogView.findViewById(R.id.cb_mon),
+                                        dialogView.findViewById(R.id.cb_tue),
+                                        dialogView.findViewById(R.id.cb_wed),
+                                        dialogView.findViewById(R.id.cb_thu),
+                                        dialogView.findViewById(R.id.cb_fri),
+                                        dialogView.findViewById(R.id.cb_sat)};
+                        boolean [] checked = new boolean[7];
+                        for(int i=0; i<7; i++){
+                            checked[i] = checkboxes[i].isChecked();
+                        }
+                        //firebase와 listview에 추가하기
+                        addToTimeTableList(subjectname);
+                        Toast.makeText(getContext(), subjectname + "추가되었습니다." , Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("취소", null).show();
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
+
+                    }
+                }).show();
     }
 
     private void signOut(){
@@ -131,45 +159,18 @@ public class Frag3 extends Fragment{
         getActivity().finishAffinity();
     }
 
+    private void addToTimeTableList(String subjectName){
+        subjectList.add(0, subjectName);
+        adapter.notifyDataSetChanged();
+
+    }
+
     private void setTimeTableList(){
         subjectList = new ArrayList<>();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
+        //firebase에서 읽어오기
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
 
         lv_timetable.setAdapter(adapter);
-
-        subjectList.add(0, "abc");
-        subjectList.add(0, "def");
-        subjectList.add(0, "ghi");
-        subjectList.add(0, "jkl");
-        subjectList.add(0, "mno");
-
-        subjectList.add(0, "abc");
-        subjectList.add(0, "def");
-        subjectList.add(0, "ghi");
-        subjectList.add(0, "jkl");
-        subjectList.add(0, "mno");
-
-        subjectList.add(0, "abc");
-        subjectList.add(0, "def");
-        subjectList.add(0, "ghi");
-        subjectList.add(0, "jkl");
-        subjectList.add(0, "mno");
-
-        subjectList.add(0, "abc");
-        subjectList.add(0, "def");
-        subjectList.add(0, "ghi");
-        subjectList.add(0, "jkl");
-        subjectList.add(0, "mno");
-
-        subjectList.add(0, "abc");
-        subjectList.add(0, "def");
-        subjectList.add(0, "ghi");
-        subjectList.add(0, "jkl");
-        subjectList.add(0, "mno");
-
-
-        adapter.notifyDataSetChanged();
     }
 
 }
