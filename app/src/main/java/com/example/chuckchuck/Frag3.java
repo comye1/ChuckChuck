@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,12 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Frag3 extends Fragment{
     private View view;
     private TextView tv_user, tv_logout, tv_revoke, tv_timetable1, tv_timetable2;
     private LinearLayout linear1, linear2;
+    private ListView lv_timetable;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private List<String> subjectList;
 
     @Nullable
     @Override
@@ -33,6 +41,7 @@ public class Frag3 extends Fragment{
         linear2 = view.findViewById(R.id.linear2);
         tv_timetable1 = view.findViewById(R.id.tv_timetable1);
         tv_timetable2 = view.findViewById(R.id.tv_timetable2);
+        lv_timetable = view.findViewById(R.id.lv_timetable);
         tv_user = view.findViewById(R.id.tv_user);
         tv_logout = view.findViewById(R.id.tv_logout);
         tv_revoke = view.findViewById(R.id.tv_revoke);
@@ -41,7 +50,7 @@ public class Frag3 extends Fragment{
 
         //초기 화면
         showLinear1();
-
+        setTimeTableList();
 
         //계정 정보 보여줌
         mAuth = FirebaseAuth.getInstance();
@@ -119,4 +128,47 @@ public class Frag3 extends Fragment{
         mAuth.getCurrentUser().delete();
         getActivity().finishAffinity();
     }
+
+    private void setTimeTableList(){
+        subjectList = new ArrayList<>();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1, subjectList);
+
+        lv_timetable.setAdapter(adapter);
+
+        subjectList.add(0, "abc");
+        subjectList.add(0, "def");
+        subjectList.add(0, "ghi");
+        subjectList.add(0, "jkl");
+        subjectList.add(0, "mno");
+
+        adapter.notifyDataSetChanged();
+//        setListViewHeightBasedOnChildren(lv_timetable);
+    }
+
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+
+
+    //출처: https://wkdgusdn3.tistory.com/entry/Android-ScrollView안에-ListVIew-넣을-시-Height-문제 [장삼의 착한코딩]
 }
