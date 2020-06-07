@@ -31,31 +31,108 @@
             android:textSize="20sp"
             android:layout_marginBottom="8dp"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Google 계정 관리"
-            android:id="@+id/tv_account"
-            android:clickable="true"
-            android:textColor="#01579B"
-            android:textSize="18sp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그 아웃"
+                android:id="@+id/tv_logout"
+                android:clickable="true"
+                android:textColor="#01579B"
+                android:textSize="14sp"
+                android:layout_marginRight="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원 탈퇴"
+                android:id="@+id/tv_revoke"
+                android:clickable="true"
+                android:textColor="#01579B"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="12dp"
-        android:padding="12dp"
-        android:background="@drawable/round_border">
-        <TextView
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/linear1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            android:text="시간표"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_margin="12dp"
+            android:padding="12dp"
+            android:background="@drawable/round_border">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:layout_marginRight="6dp"
+                android:background="#ffffff"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/tv_timetable1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:text="시간표"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="12dp"
+            android:padding="12dp"
+            android:background="@drawable/round_border">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+                    android:layout_marginRight="6dp"
+                    android:background="#ffffff"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:id="@+id/tv_timetable2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="22sp"
+                    android:text="시간표"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ExpandableListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </ExpandableListView>
+            </ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="asldkfldjwioe"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
 
 </LinearLayout>
