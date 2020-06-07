@@ -1,30 +1,28 @@
 package com.example.chuckchuck;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Frag3 extends Fragment{
     private View view;
     private TextView tv_user, tv_logout, tv_revoke, tv_timetable1, tv_timetable2;
     private LinearLayout linear1, linear2;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Nullable
     @Override
@@ -38,6 +36,8 @@ public class Frag3 extends Fragment{
         tv_user = view.findViewById(R.id.tv_user);
         tv_logout = view.findViewById(R.id.tv_logout);
         tv_revoke = view.findViewById(R.id.tv_revoke);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //초기 화면
         showLinear1();

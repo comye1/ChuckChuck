@@ -120,11 +120,10 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ExpandableListView
+                <ListView
+                    android:id="@+id/lv_timetable"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </ExpandableListView>
+                    android:layout_height="wrap_content"/>
             </ScrollView>
             <TextView
                 android:layout_width="match_parent"
