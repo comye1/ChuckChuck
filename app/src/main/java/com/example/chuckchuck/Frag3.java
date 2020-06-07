@@ -3,10 +3,13 @@ package com.example.chuckchuck;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import javax.security.auth.Subject;
+
 public class Frag3 extends Fragment{
     private View view, dialogView;
     private TextView tv_user, tv_logout, tv_revoke;
@@ -43,6 +48,7 @@ public class Frag3 extends Fragment{
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private List<String> subjectList;
+    private List<String> dayList; //요일 배열 저장
     private ArrayAdapter<String> adapter;
 
     @Nullable
@@ -56,11 +62,7 @@ public class Frag3 extends Fragment{
         tv_revoke = view.findViewById(R.id.tv_revoke);
         btn_addSubject = view.findViewById(R.id.btn_addSubject);
 
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-
 
         //계정 정보 보여줌
         mAuth = FirebaseAuth.getInstance();
@@ -69,6 +71,7 @@ public class Frag3 extends Fragment{
 
         //초기 화면
         subjectList = new ArrayList<>();
+        dayList = new ArrayList<>();
         setTimeTableList();
 
         //로그아웃 대화상자
@@ -110,52 +113,61 @@ public class Frag3 extends Fragment{
         btn_addSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subjectDialog();
+                subjectDialog(null, "추가", "0000000");
             }
         });
         return view;
 
     }
-
-    private void subjectDialog(){
+//Todo 차라리 추가/수정 함수를 따로 만들고,
+    private void subjectDialog(final String name, final String positive, final String array){
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_timetable, null);
+        final EditText et_name = dialogView.findViewById(R.id.et_subjectName);
+        if(name != null) et_name.setText(name);
+        final CheckBox [] checkboxes =
+                {dialogView.findViewById(R.id.cb_sun),
+                        dialogView.findViewById(R.id.cb_mon),
+                        dialogView.findViewById(R.id.cb_tue),
+                        dialogView.findViewById(R.id.cb_wed),
+                        dialogView.findViewById(R.id.cb_thu),
+                        dialogView.findViewById(R.id.cb_fri),
+                        dialogView.findViewById(R.id.cb_sat)};
+        for(int i=0; i<7; i++){
+            if(array.charAt(i)=='1'){
+                Log.d("DAY", i + "요일");
+                checkboxes[i].setChecked(true);
+            }
+        }
         builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("과목 추가");
+        builder.setTitle("과목" + positive);
         builder.setView(dialogView);
-        builder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EditText et_name = dialogView.findViewById(R.id.et_subjectName);
                         String subjectname = et_name.getText().toString();
                         if(subjectname.replace(" ", "").equals("")){
                             Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
-                            return;
+                            return ;
                         }
-                        CheckBox [] checkboxes =
-                                        {dialogView.findViewById(R.id.cb_sun),
-                                        dialogView.findViewById(R.id.cb_mon),
-                                        dialogView.findViewById(R.id.cb_tue),
-                                        dialogView.findViewById(R.id.cb_wed),
-                                        dialogView.findViewById(R.id.cb_thu),
-                                        dialogView.findViewById(R.id.cb_fri),
-                                        dialogView.findViewById(R.id.cb_sat)};
+
                         String checked = "";
                         for(int i=0; i<7; i++){
                             checked += (checkboxes[i].isChecked())? "1" : "0";
                         }
                         //firebase와 listview에 추가하기
                         addToTimeTableList(subjectname, checked);
-                        Toast.makeText(getContext(), subjectname + "추가되었습니다." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), subjectname + positive + "되었습니다." , Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"취소되었습니다." , Toast.LENGTH_SHORT).show();
 
                     }
                 }).show();
+        adapter.notifyDataSetChanged();
     }
 
     private void signOut(){
@@ -168,24 +180,32 @@ public class Frag3 extends Fragment{
         getActivity().finishAffinity();
     }
 
-    private void addToTimeTableList(String subjectName, String checked){
-        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(subjectName).setValue(checked);
+    private void addToTimeTableList(String subjectName, String days){
+        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
+                .child(subjectName).setValue(days);
+        subjectList.add( subjectName);//
         adapter.notifyDataSetChanged();
 
     }
 
+
     private void setTimeTableList(){
         //firebase에서 읽어오기
-
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
         lv_timetable.setAdapter(adapter);
+        lv_timetable.setOnItemClickListener(onItemClickListener);
 
         mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        subjectList.clear();
+                        dayList.clear();
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            subjectList.add(0, snapshot.getKey());
+
+                            subjectList.add(snapshot.getKey()); //key : 과목명
+                            dayList.add(snapshot.getValue().toString()); //value : 요일 string
+                            //getValue로 요일 정보 읽어와서
                         }
 //                        subjectList.add(0,dataSnapshot.getValue().toString());//dataSnapshot.getValue().toString()
                         adapter.notifyDataSetChanged();
@@ -196,10 +216,20 @@ public class Frag3 extends Fragment{
 
                     }
                 });
-//                .addValueEventListener(new ValueEventListener() {
+
+//        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        subjectList.add(0,dataSnapshot.getKey());//dataSnapshot.getValue().toString()
+//                        subjectList.clear();
+//                        dayList.clear();
+//                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//
+//                            subjectList.add(0, snapshot.getKey()); //key : 과목명
+//                            dayList.add(0, snapshot.getValue().toString()); //value : 요일 string
+//                            //getValue로 요일 정보 읽어와서
+//                        }
+////                        subjectList.add(0,dataSnapshot.getValue().toString());//dataSnapshot.getValue().toString()
 //                        adapter.notifyDataSetChanged();
 //                    }
 //
@@ -208,34 +238,16 @@ public class Frag3 extends Fragment{
 //
 //                    }
 //                });
-
-//                .addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                        subjectList.add(0,dataSnapshot.getKey());//dataSnapshot.getValue().toString()
-//                    }
 //
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-
     }
+
+
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            subjectDialog(subjectList.get(position), "수정", dayList.get(position));
+        }
+    };
+
 
 }
