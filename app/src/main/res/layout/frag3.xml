@@ -43,6 +43,7 @@
                 android:clickable="true"
                 android:textColor="#01579B"
                 android:textSize="14sp"
+                android:background="@drawable/ripple_effect"
                 android:layout_marginRight="12dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -51,89 +52,59 @@
                 android:id="@+id/tv_revoke"
                 android:clickable="true"
                 android:textColor="#01579B"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:background="@drawable/ripple_effect"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_margin="12dp"
+        android:padding="12dp"
+        android:background="@drawable/round_border">
         <LinearLayout
-            android:id="@+id/linear1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="12dp"
-            android:padding="12dp"
-            android:background="@drawable/round_border">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
-                android:layout_marginRight="6dp"
-                android:background="#ffffff"
-                android:layout_gravity="center_vertical"/>
+            android:layout_marginBottom="12dp">
             <TextView
-                android:id="@+id/tv_timetable1"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textSize="22sp"
                 android:text="시간표"
                 android:textStyle="bold"/>
 
+            <ImageButton
+                android:id="@+id/btn_subject"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/ic_add_black_24dp"
+                android:background="@drawable/ripple_effect"/>
+
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear2"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="12dp"
-            android:padding="12dp"
-            android:background="@drawable/round_border">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <ListView
+                android:id="@+id/lv_timetable"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
-                    android:layout_marginRight="6dp"
-                    android:background="#ffffff"
-                    android:layout_gravity="center_vertical"/>
-                <TextView
-                    android:id="@+id/tv_timetable2"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:textSize="22sp"
-                    android:text="시간표"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                android:layout_height="match_parent"/>
+        </ScrollView>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-                <ListView
-                    android:id="@+id/lv_timetable"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
-            </ScrollView>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="추가하기"
-                android:gravity="center_horizontal"/>
-
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
 
 
 </LinearLayout>

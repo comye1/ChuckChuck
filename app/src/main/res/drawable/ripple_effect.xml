@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#33691E"
+    tools:targetApi="lollipop"> <!-- ripple effect color -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff" /> <!-- background color -->
+        </shape>
+    </item>
+</ripple>
+
+
+<!--    출처: https://soulduse.tistory.com/52 [프로그래밍좀비]-->
