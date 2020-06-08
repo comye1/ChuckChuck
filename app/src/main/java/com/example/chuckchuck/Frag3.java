@@ -113,7 +113,8 @@ public class Frag3 extends Fragment{
         return view;
 
     }
-    private void subjectAdd(){ //시간표 과목 추가 함수
+    //시간표 과목 추가 함수
+    private void subjectAdd(){
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_timetable, null);
         final EditText et_name = dialogView.findViewById(R.id.et_subjectName);
@@ -211,16 +212,17 @@ public class Frag3 extends Fragment{
                 }).show();
     }
 
+    //로그아웃
     private void signOut(){
         FirebaseAuth.getInstance().signOut();
         getActivity().finishAffinity();
     }
-
+    //계정삭제(탈퇴)
     private void revokeAccess(){
         mAuth.getCurrentUser().delete();
         getActivity().finishAffinity();
     }
-
+    //새로 추가
     private void addToList(String subjectName, String days){
         String key ;
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").push();
@@ -233,7 +235,7 @@ public class Frag3 extends Fragment{
         keyList.add(key);
 
     }
-
+    //수정
     private void modifyList(String subjectName, String days, int position){
         String key = keyList.get(position);
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
@@ -246,7 +248,7 @@ public class Frag3 extends Fragment{
         adapter.notifyDataSetChanged();
 
     }
-
+    //삭제
     private void deleteFromList(int position){
         String key = keyList.get(position);
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
@@ -258,7 +260,7 @@ public class Frag3 extends Fragment{
 
         adapter.notifyDataSetChanged();
     }
-
+    //읽어오기
     private void setTimeTableList(){
         //firebase에서 읽어오기
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
@@ -279,7 +281,6 @@ public class Frag3 extends Fragment{
                             keyList.add(snapshot.getKey());
                             //getValue로 요일 정보 읽어와서
                         }
-//                        subjectList.add(0,dataSnapshot.getValue().toString());//dataSnapshot.getValue().toString()
                         adapter.notifyDataSetChanged();
                     }
 
@@ -289,31 +290,9 @@ public class Frag3 extends Fragment{
                     }
                 });
 
-//        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        subjectList.clear();
-//                        dayList.clear();
-//                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//
-//                            subjectList.add(0, snapshot.getKey()); //key : 과목명
-//                            dayList.add(0, snapshot.getValue().toString()); //value : 요일 string
-//                            //getValue로 요일 정보 읽어와서
-//                        }
-////                        subjectList.add(0,dataSnapshot.getValue().toString());//dataSnapshot.getValue().toString()
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//
     }
 
-
+    //리스트 아이템 클릭리스너 - 수정/삭제 대화상자 띄움
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
