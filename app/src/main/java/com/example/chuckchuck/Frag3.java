@@ -182,7 +182,7 @@ public class Frag3 extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String subjectname = et_name.getText().toString();
-                        if(subjectname.replace(" ", "").equals("")){
+                        if(subjectname.replace(" ", "").equals("")){ //공백 여부 검사
                             Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
                             return ;
                         }
