@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_border">
+
+        <TextView
+            android:id="@+id/tv_subjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="안드로이드"
+            android:textColor="#101010"
+            android:textSize="22sp"/>
+
+        <com.wefika.flowlayout.FlowLayout
+            android:id="@+id/flowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top">
+
+
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="척척학사" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="모바일" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="키움히어로즈" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="서건창" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="인공눈물" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="컴퓨팅사고" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:background="@drawable/round_border"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="알고리즘" />-->
+
+
+        </com.wefika.flowlayout.FlowLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/edit_addKeyWord"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="키워드"/>
+            <Button
+                android:id="@+id/btn_addKeyWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추가"/>
+        </LinearLayout>
+
+</LinearLayout>
