@@ -160,7 +160,7 @@ public class Frag3 extends Fragment{
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_timetable, null);
         final EditText et_name = dialogView.findViewById(R.id.et_subjectName);
-        if(name != null) et_name.setText(name);
+        et_name.setText(name);
         final CheckBox [] checkboxes =
                 {dialogView.findViewById(R.id.cb_sun),
                         dialogView.findViewById(R.id.cb_mon),
@@ -209,7 +209,6 @@ public class Frag3 extends Fragment{
 
                     }
                 }).show();
-        adapter.notifyDataSetChanged();
     }
 
     private void signOut(){
@@ -232,7 +231,6 @@ public class Frag3 extends Fragment{
         subjectList.add(subjectName);
         dayList.add(days);
         keyList.add(key);
-//
 
     }
 
