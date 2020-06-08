@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rect_border">
+    android:background="@drawable/rect_border"
+    android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/tv_subjectName"
@@ -88,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="키워드"/>
+                android:hint="키워드를 입력하세요."/>
             <Button
                 android:id="@+id/btn_addKeyWord"
                 android:layout_width="wrap_content"
