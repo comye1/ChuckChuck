@@ -31,7 +31,7 @@ import java.util.List;
 
 
 public class Frag3 extends Fragment{
-    private View view, dialogView;
+    private View view;
     private TextView tv_user, tv_logout, tv_revoke;
     private ImageButton btn_addSubject;
     private ListView lv_timetable;
@@ -155,8 +155,7 @@ public class Frag3 extends Fragment{
                 }).show();
     }
 
-
-//Todo 차라리 추가/수정 함수를 따로 만들고,
+    //시간표 과목 수정, 삭제 함수
     private void subjectRevise(final String name, final String array, final int position){
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_timetable, null);
@@ -196,6 +195,13 @@ public class Frag3 extends Fragment{
                         Toast.makeText(getContext(), "수정되었습니다\n과목명 : " + subjectname , Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setNeutralButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteFromList(position);
+                        Toast.makeText(getContext(),"삭제되었습니다." , Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -223,7 +229,6 @@ public class Frag3 extends Fragment{
         key = reference.getKey();
         reference.child("subject").setValue(subjectName);
         reference.child("days").setValue(days);
-        Toast.makeText(getContext(), key, Toast.LENGTH_SHORT).show();
         subjectList.add(subjectName);
         dayList.add(days);
         keyList.add(key);
@@ -244,6 +249,17 @@ public class Frag3 extends Fragment{
 
     }
 
+    private void deleteFromList(int position){
+        String key = keyList.get(position);
+        DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
+        reference.removeValue();
+
+        subjectList.remove(position);
+        dayList.remove(position);
+        keyList.remove(position);
+
+        adapter.notifyDataSetChanged();
+    }
 
     private void setTimeTableList(){
         //firebase에서 읽어오기
