@@ -41,6 +41,8 @@ public class Frag3 extends Fragment{
     private List<String> subjectList;
     private List<String> dayList; //요일 배열 저장
     private List<String> keyList; //key 배열 저장
+
+//    private TimeTable timeTable;
     private ArrayAdapter<String> adapter;
 
     @Nullable
@@ -62,6 +64,7 @@ public class Frag3 extends Fragment{
         //show linear2
 
         //초기 화면
+//        timeTable.declare();
         subjectList = new ArrayList<>();
         dayList = new ArrayList<>();
         keyList = new ArrayList<>();
@@ -228,8 +231,9 @@ public class Frag3 extends Fragment{
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").push();
 
         key = reference.getKey();
-        reference.child("subject").setValue(subjectName);
-        reference.child("days").setValue(days);
+
+        SubjectInfo subjectInfo = new SubjectInfo(subjectName, days);
+        reference.setValue(subjectInfo); //
         subjectList.add(subjectName);
         dayList.add(days);
         keyList.add(key);
