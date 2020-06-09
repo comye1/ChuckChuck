@@ -38,11 +38,11 @@ public class Frag3 extends Fragment{
     private AlertDialog.Builder builder;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private List<String> subjectList;
-    private List<String> dayList; //요일 배열 저장
-    private List<String> keyList; //key 배열 저장
+//    private List<String> subjectList;
+//    private List<String> dayList; //요일 배열 저장
+//    private List<String> keyList; //key 배열 저장
 
-//    private TimeTable timeTable;
+    private TimeTable timeTable;
     private ArrayAdapter<String> adapter;
 
     @Nullable
@@ -65,9 +65,9 @@ public class Frag3 extends Fragment{
 
         //초기 화면
 //        timeTable.declare();
-        subjectList = new ArrayList<>();
-        dayList = new ArrayList<>();
-        keyList = new ArrayList<>();
+//        subjectList = new ArrayList<>();
+//        dayList = new ArrayList<>();
+//        keyList = new ArrayList<>();
 
         setTimeTableList();
 
@@ -234,40 +234,44 @@ public class Frag3 extends Fragment{
 
         SubjectInfo subjectInfo = new SubjectInfo(subjectName, days);
         reference.setValue(subjectInfo); //
-        subjectList.add(subjectName);
-        dayList.add(days);
-        keyList.add(key);
-
+//        subjectList.add(subjectName);
+//        dayList.add(days);
+//        keyList.add(key);
+        timeTable.add(subjectInfo, key);
     }
     //수정
     private void modifyList(String subjectName, String days, int position){
-        String key = keyList.get(position);
+//        String key = keyList.get(position);
+        String key = timeTable.getKey(position);
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
 
         SubjectInfo subjectInfo = new SubjectInfo(subjectName, days);
         reference.setValue(subjectInfo);
 
-        subjectList.set(position, subjectName);
-        dayList.set(position, days);
+//        subjectList.set(position, subjectName);
+//        dayList.set(position, days);
+        timeTable.set(subjectInfo, position);
         adapter.notifyDataSetChanged();
 
     }
     //삭제
     private void deleteFromList(int position){
-        String key = keyList.get(position);
+//        String key = keyList.get(position);
+        String key = timeTable.getKey(position);
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
         reference.removeValue();
 
-        subjectList.remove(position);
-        dayList.remove(position);
-        keyList.remove(position);
-
+//        subjectList.remove(position);
+//        dayList.remove(position);
+//        keyList.remove(position);
+        timeTable.remove(position);
         adapter.notifyDataSetChanged();
     }
     //읽어오기
     private void setTimeTableList(){
         //firebase에서 읽어오기
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
+//        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, timeTable.getSubjectList());
         lv_timetable.setAdapter(adapter);
         lv_timetable.setOnItemClickListener(onItemClickListener);
 
@@ -275,14 +279,16 @@ public class Frag3 extends Fragment{
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        subjectList.clear();
-                        dayList.clear();
-                        keyList.clear();
+//                        subjectList.clear();
+//                        dayList.clear();
+//                        keyList.clear();
+                        timeTable.clear();
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                             SubjectInfo subjectInfo = snapshot.getValue(SubjectInfo.class);
-                            subjectList.add(subjectInfo.getSubject()); //key : 과목명
-                            dayList.add(subjectInfo.getDays()); //value : 요일 string
-                            keyList.add(snapshot.getKey());
+//                            subjectList.add(subjectInfo.getSubject()); //key : 과목명
+//                            dayList.add(subjectInfo.getDays()); //value : 요일 string
+//                            keyList.add(snapshot.getKey());
+                            timeTable.add(subjectInfo, snapshot.getKey());
                             //getValue로 요일 정보 읽어와서
                         }
                         adapter.notifyDataSetChanged();
@@ -300,7 +306,9 @@ public class Frag3 extends Fragment{
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            subjectRevise(subjectList.get(position), dayList.get(position), position);
+
+//            subjectRevise(subjectList.get(position), dayList.get(position), position);
+            subjectRevise(timeTable.getSubject(position), timeTable.getDay(position), position);
         }
     };
 

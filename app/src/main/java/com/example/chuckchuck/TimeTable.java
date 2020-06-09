@@ -9,9 +9,9 @@ public class TimeTable {
         return subjectList;
     }
 
-    private static List<String> subjectList;
-    private static List<String> dayList; //요일 배열 저장
-    private static List<String> keyList; //key 배열 저장
+    private static List<String> subjectList = null;
+    private static List<String> dayList = null; //요일 배열 저장
+    private static List<String> keyList = null; //key 배열 저장
 
     public void declare() {
         subjectList = new ArrayList<>();
@@ -40,6 +40,18 @@ public class TimeTable {
         subjectList.remove(position);
         dayList.remove(position);
         keyList.remove(position);
+    }
+
+    public String getSubject(int position){
+        return subjectList.get(position);
+    }
+
+    public String getDay(int position){
+        return dayList.get(position);
+    }
+
+    public String getKey(int position){
+        return keyList.get(position);
     }
 }
 
