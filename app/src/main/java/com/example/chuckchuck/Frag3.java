@@ -227,9 +227,11 @@ public class Frag3 extends Fragment{
         String key ;
         DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").push();
 
+        SubjectInfo subjectInfo = new SubjectInfo(subjectName, days);
         key = reference.getKey();
-        reference.child("subject").setValue(subjectName);
-        reference.child("days").setValue(days);
+        reference.setValue(subjectInfo);
+//        reference.child("subject").setValue(subjectName);
+//        reference.child("days").setValue(days);
         subjectList.add(subjectName);
         dayList.add(days);
         keyList.add(key);
