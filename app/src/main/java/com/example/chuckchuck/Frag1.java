@@ -1,6 +1,8 @@
 package com.example.chuckchuck;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,13 @@ public class Frag1 extends Fragment {
     private TextView tv_date;
     private LinearLayout linearScroll;
     private LayoutInflater linflater;
+    private AlertDialog.Builder builder;
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private static int dayToday;
@@ -56,8 +65,6 @@ public class Frag1 extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         createTodayRecords();
-
-
         return view;
     }
 
@@ -104,15 +111,13 @@ public class Frag1 extends Fragment {
 
     private void createTodayRecords(){
         //database 읽어서 체크 -> 해당하는 과목 create
-        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
-                .addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Users/"+mAuth.getUid()+"/TimeTable")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                             SubjectInfo subjectInfo = snapshot.getValue(SubjectInfo.class);
                             if(isToday(subjectInfo.getDays())){
-                                Toast.makeText(getContext(), subjectInfo.getSubject() + "는 오늘입니다", Toast.LENGTH_SHORT).show();
                                 newRecord(subjectInfo.getSubject(), snapshot.getKey());
 //                                updateListener(snapshot.getKey());
                             }
@@ -125,56 +130,11 @@ public class Frag1 extends Fragment {
 
                     }
                 });
-
-//
-//        linflater = getLayoutInflater();
-//        //todo 메소드 만들기 (요일 해당 과목 찾아서 아래 뷰 만들고 추가하기 & 클릭리스너
-//        //todo firebase에 초기화 (keyword: 키워드)
-//        record1 = linflater.inflate(R.layout.frag_todayrecord, null);
-//        FlowLayout flowLayout = (FlowLayout)record1.findViewById(R.id.flowLayout);
-//        // flowLayout 전달
-//        TextView textView = KeywordTextView();
-//        textView.setText("sample keyword");
-//        textView.setOnClickListener(onclick);
-//        flowLayout.addView(textView);
-//        linearScroll.addView(record1);
-        /////
     }
 
-    private void updateListener(String key){
-        mDatabase.child("Users/"+mAuth.getUid()+"/TimeTable/"+key+"/records/"+today)
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-    }
 
     private void newRecord(final String subjectName, final String key){
         linflater = getLayoutInflater();
-        //todo 메소드 만들기 (요일 해당 과목 찾아서 아래 뷰 만들고 추가하기 & 클릭리스너
-        //todo firebase에 초기화 (keyword: 키워드)
         final View record = linflater.inflate(R.layout.frag_todayrecord, null);
         TextView titleView = (TextView)record.findViewById(R.id.tv_subjectName);
         final EditText addEt = (EditText)record.findViewById(R.id.edit_addKeyWord);
@@ -182,12 +142,17 @@ public class Frag1 extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String keyWord = addEt.getText().toString();
-                Toast.makeText(getContext(), subjectName + " 추가 : " + keyWord, Toast.LENGTH_SHORT).show();
+                String keyword = addEt.getText().toString();
+                if(keyword.replace(" ", "").equals("")){ //공백 여부 검사
+                    return ;
+                }
+                Content content = new Content(keyword, null);
+                mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today).push().setValue(content);
+                Toast.makeText(getContext(), subjectName + " 추가 : " + content.getKeyword(), Toast.LENGTH_SHORT).show();
                 FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
 
                 // flowLayout 전달
-                TextView textView = KeywordTextView(keyWord);
+                TextView textView = KeywordTextView(content.getKeyword());
                 textView.setOnClickListener(onclick);
                 flowLayout.addView(textView);
                 addEt.setText(null);
@@ -198,7 +163,7 @@ public class Frag1 extends Fragment {
         titleView.setText(subjectName);
         linearScroll.addView(record);
 
-        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key).child("records").child(today)
+        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -209,8 +174,7 @@ public class Frag1 extends Fragment {
                             Content content = snapshot.getValue(Content.class);
 
                             // flowLayout 전달
-                            TextView textView = KeywordTextView(content.getKeyword());
-                            textView.setOnClickListener(onclick);
+                            final TextView textView = KeywordTextView(content.getKeyword());
                             flowLayout.addView(textView);
                         }
                     }
@@ -220,6 +184,13 @@ public class Frag1 extends Fragment {
 
                     }
                 });
+    }
+
+
+    private void pushKeyword(String keyword, String content, String key){
+        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today);
+
+        Toast.makeText(getContext(), "저장되었습니다." , Toast.LENGTH_SHORT).show();
     }
 
     private TextView KeywordTextView(String text){
@@ -269,10 +240,10 @@ class Content {
     public Content(){
 
     }
-//
-//        public Content(String keyword, String content) {
-//            this.keyword = keyword;
-//            this.content = content;
-//    }
+
+    public Content(String keyword, String content) {
+        this.keyword = keyword;
+        this.content = content;
+    }
 }
 

@@ -143,8 +143,9 @@ public class Frag3 extends Fragment{
                     checked += (checkboxes[i].isChecked())? "1" : "0";
                 }
                 //firebase와 listview에 추가하기
+                Toast.makeText(getContext(), "추가되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요.", Toast.LENGTH_SHORT).show();
                 addToList(subjectname, checked);
-                Toast.makeText(getContext(), "추가되었습니다\n과목명 : " + subjectname , Toast.LENGTH_SHORT).show();
+                getActivity().finishAffinity();
             }
         })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -193,14 +194,16 @@ public class Frag3 extends Fragment{
                         }
                         //firebase와 listview에 추가하기
                         modifyList(subjectname, checked, position);//
-                        Toast.makeText(getContext(), "수정되었습니다\n과목명 : " + subjectname , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "수정되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
+                        getActivity().finishAffinity();
                     }
                 })
                 .setNeutralButton("삭제", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteFromList(position);
-                        Toast.makeText(getContext(),"삭제되었습니다." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"삭제되었습니다."+ "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
+                        getActivity().finishAffinity();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
