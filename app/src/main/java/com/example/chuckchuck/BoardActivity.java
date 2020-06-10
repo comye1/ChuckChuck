@@ -1,10 +1,13 @@
 package com.example.chuckchuck;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -12,8 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -47,10 +53,51 @@ public class BoardActivity extends AppCompatActivity {
         tv_subjectName.setText(subjectName);
 
         loadRecords();
-        //setContentView
     }
 
     public void loadRecords(){
         records = new ArrayList<>();
+
+        //firebase에서 데이터 로드, 어댑터 연결
+//        final RecordAdapter adapter = new RecordAdapter(records, getApplicationContext());
+//
+//        recyclerView.setAdapter(adapter);
+//        records.add(new Record("key", "content", "path"));
+//        records.add(new Record("key1", "content", "path"));
+//        records.add(new Record("key2", "content", "path"));
+//        records.add(new Record("key3", "content", "path"));
+//        records.add(new Record("key4", "content", "path"));
+//        records.add(new Record("key5", "content", "path"));
+//        records.add(new Record("key6", "content", "path"));
+//        records.add(new Record("key7", "content", "path"));
+//        records.add(new Record("key8", "content", "path"));
+//        records.add(new Record("key9", "content", "path"));
+//        records.add(new Record("key10", "content", "path"));
+//         adapter.notifyDataSetChanged();
+
+
+
+
+//        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        categories.clear();
+//                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                            SubjectInfo subjectInfo = snapshot.getValue(SubjectInfo.class);
+//                            Category category = new Category(subjectInfo.getSubject(),snapshot.getKey());
+//                            categories.add(category);
+//                            //getValue로 요일 정보 읽어와서
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+
     }
 }
