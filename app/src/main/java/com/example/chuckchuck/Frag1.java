@@ -1,6 +1,7 @@
 package com.example.chuckchuck;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.wefika.flowlayout.FlowLayout;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +36,7 @@ public class Frag1 extends Fragment {
     private TextView tv_date;
     private LinearLayout linearScroll;
     private LayoutInflater linflater;
+    private Context mContext;
 
     @Override
     public void onDetach() {
@@ -43,6 +47,12 @@ public class Frag1 extends Fragment {
     private DatabaseReference mDatabase;
     private static int dayToday;
     private static String today;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Nullable
     @Override
@@ -142,7 +152,7 @@ public class Frag1 extends Fragment {
                 }
                 Content content = new Content(keyword, null);
                 mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today).push().setValue(content);
-                Toast.makeText(getContext(), subjectName + " 추가 : " + content.getKeyword(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, subjectName + " 추가 : " + content.getKeyword(), Toast.LENGTH_SHORT).show();
                 FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
 
                 // flowLayout 전달
@@ -183,15 +193,15 @@ public class Frag1 extends Fragment {
     private void pushKeyword(String keyword, String content, String key){
         mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today);
 
-        Toast.makeText(getContext(), "저장되었습니다." , Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "저장되었습니다." , Toast.LENGTH_SHORT).show();
     }
 
     private TextView KeywordTextView(String text){
-        TextView textView = new TextView(getContext());
+        TextView textView = new TextView(mContext);//////todo context
         FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(5,5,5,5);
         textView.setLayoutParams(params);
-        textView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.round_border));
+        textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.round_border));
         textView.setText(text);
         return textView;
     }
@@ -202,7 +212,7 @@ public class Frag1 extends Fragment {
         public void onClick(View v) {
             TextView tv = (TextView)v;
             String sName = tv.getText().toString();
-            Toast.makeText(getContext(),sName + " clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,sName + " clicked", Toast.LENGTH_SHORT).show();
 
         }
     };

@@ -1,6 +1,7 @@
 package com.example.chuckchuck;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +43,13 @@ public class Frag3 extends Fragment{
     private List<String> dayList; //요일 배열 저장
     private List<String> keyList; //key 배열 저장
     private ArrayAdapter<String> adapter;
+    private Context mContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Nullable
     @Override
@@ -134,7 +142,7 @@ public class Frag3 extends Fragment{
             public void onClick(DialogInterface dialog, int which) {
                 String subjectname = et_name.getText().toString();
                 if(subjectname.replace(" ", "").equals("")){
-                    Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "취소되었습니다." , Toast.LENGTH_SHORT).show();
                     return ;
                 }
 
@@ -143,7 +151,7 @@ public class Frag3 extends Fragment{
                     checked += (checkboxes[i].isChecked())? "1" : "0";
                 }
                 //firebase와 listview에 추가하기
-                Toast.makeText(getContext(), "추가되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "추가되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요.", Toast.LENGTH_SHORT).show();
                 addToList(subjectname, checked);
                 getActivity().finishAffinity();
             }
@@ -151,7 +159,7 @@ public class Frag3 extends Fragment{
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),"취소되었습니다." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"취소되었습니다." , Toast.LENGTH_SHORT).show();
 
                     }
                 }).show();
@@ -184,7 +192,7 @@ public class Frag3 extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
                         String subjectname = et_name.getText().toString();
                         if(subjectname.replace(" ", "").equals("")){ //공백 여부 검사
-                            Toast.makeText(getContext(), "취소되었습니다." , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "취소되었습니다." , Toast.LENGTH_SHORT).show();
                             return ;
                         }
 
@@ -194,7 +202,7 @@ public class Frag3 extends Fragment{
                         }
                         //firebase와 listview에 추가하기
                         modifyList(subjectname, checked, position);//
-                        Toast.makeText(getContext(), "수정되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "수정되었습니다\n과목명 : " + subjectname + "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
                         getActivity().finishAffinity();
                     }
                 })
@@ -202,14 +210,14 @@ public class Frag3 extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteFromList(position);
-                        Toast.makeText(getContext(),"삭제되었습니다."+ "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"삭제되었습니다."+ "\n다시 실행해주세요." , Toast.LENGTH_SHORT).show();
                         getActivity().finishAffinity();
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),"취소되었습니다." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"취소되었습니다." , Toast.LENGTH_SHORT).show();
 
                     }
                 }).show();
@@ -268,7 +276,7 @@ public class Frag3 extends Fragment{
     //읽어오기
     private void setTimeTableList(){
         //firebase에서 읽어오기
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, subjectList);
+        adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, subjectList);
         lv_timetable.setAdapter(adapter);
         lv_timetable.setOnItemClickListener(onItemClickListener);
 
