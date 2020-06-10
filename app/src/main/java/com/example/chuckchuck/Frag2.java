@@ -72,6 +72,7 @@ public class Frag2 extends Fragment {
             public void onItemClick(View v, int pos) {
                 Intent intent = new Intent(getActivity(), BoardActivity.class);
                 intent.putExtra("subjectKey", categories.get(pos).getSubjectKey());//과목 키 전달
+                intent.putExtra("subjectName", categories.get(pos).getSubjectName());//과목 이름 전달
                 startActivity(intent);
             }
         });

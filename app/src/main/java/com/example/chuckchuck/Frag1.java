@@ -127,6 +127,9 @@ public class Frag1 extends Fragment {
     private void newRecord(final String subjectName, final String key){
         linflater = getLayoutInflater();
         final View record = linflater.inflate(R.layout.frag_todayrecord, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(10,10,10,10);
+        record.setLayoutParams(layoutParams);
         TextView titleView = (TextView)record.findViewById(R.id.tv_subjectName);
         final EditText addEt = (EditText)record.findViewById(R.id.edit_addKeyWord);
         Button addButton = (Button)record.findViewById(R.id.btn_addKeyWord);
