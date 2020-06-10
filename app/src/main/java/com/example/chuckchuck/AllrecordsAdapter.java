@@ -31,7 +31,7 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
                 public void onClick(View v) {
                     if(recyclerView.getVisibility() == View.VISIBLE){
                         recyclerView.setVisibility(View.GONE);
-                    }else{
+                    }else if(recyclerView.getVisibility() == View.GONE){
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
