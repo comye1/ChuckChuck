@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,9 +30,12 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
             tv_record_date.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(recyclerView.getVisibility() == View.VISIBLE){
+                    if(recyclerView.getAdapter().getItemCount()==0){
+
+                    }
+                    else if(recyclerView.getVisibility() == View.VISIBLE){
                         recyclerView.setVisibility(View.GONE);
-                    }else if(recyclerView.getVisibility() == View.GONE){
+                    }else{
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
