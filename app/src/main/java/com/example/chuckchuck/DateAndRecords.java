@@ -7,6 +7,7 @@ public class DateAndRecords {
     ArrayList<Record> recordArrayList;
 
     public DateAndRecords() {
+        recordArrayList = new ArrayList<>();
     }
 
     public String getDate() {
@@ -15,6 +16,10 @@ public class DateAndRecords {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void putRecord(Record record){
+        recordArrayList.add(record);
     }
 
     public ArrayList<Record> getRecordArrayList() {

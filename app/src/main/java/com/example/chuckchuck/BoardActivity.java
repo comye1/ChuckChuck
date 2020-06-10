@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ public class BoardActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
+    ArrayList<DateAndRecords> darArray;
     private ArrayList<Record> records;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;;
@@ -61,7 +63,7 @@ public class BoardActivity extends AppCompatActivity {
         //firebase에서 데이터 로드, 어댑터 연결
 //        final RecordAdapter adapter = new RecordAdapter(records, getApplicationContext());
 //
-//        recyclerView.setAdapter(adapter);
+
 //        records.add(new Record("key", "content", "path"));
 //        records.add(new Record("key1", "content", "path"));
 //        records.add(new Record("key2", "content", "path"));
@@ -73,30 +75,49 @@ public class BoardActivity extends AppCompatActivity {
 //        records.add(new Record("key8", "content", "path"));
 //        records.add(new Record("key9", "content", "path"));
 //        records.add(new Record("key10", "content", "path"));
-//         adapter.notifyDataSetChanged();
+
+        darArray = new ArrayList<>();
+        final AllrecordsAdapter adapter = new AllrecordsAdapter(darArray, getApplicationContext());
+        recyclerView.setAdapter(adapter);
 
 
 
+        final DateAndRecords dateAndRecords = new DateAndRecords();
+        dateAndRecords.setDate("20200610");
+        dateAndRecords.setRecordArrayList(records);
+        darArray.add(dateAndRecords);
+        adapter.notifyDataSetChanged();
 
-//        mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable")
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        categories.clear();
-//                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                            SubjectInfo subjectInfo = snapshot.getValue(SubjectInfo.class);
-//                            Category category = new Category(subjectInfo.getSubject(),snapshot.getKey());
-//                            categories.add(category);
-//                            //getValue로 요일 정보 읽어와서
-//                        }
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
+
+        mDatabase.child("Users").child(mAuth.getUid()).child("Records").child(subjectKey)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        darArray.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            DateAndRecords dar = new DateAndRecords();
+                            String key = snapshot.getKey();
+                            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
+                            dar.setDate(key);
+                            for(DataSnapshot innersnapshot : snapshot.getChildren()){
+                                Content content = innersnapshot.getValue(Content.class);
+                                String path = key + innersnapshot.getKey();//subPath
+                                Record record = new Record(content.getKeyword(), content.getContent(), path);
+
+                                dar.putRecord(record);
+                            }
+
+                            darArray.add(dar);
+
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
     }
