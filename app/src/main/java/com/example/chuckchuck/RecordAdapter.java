@@ -67,7 +67,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                                 .setNeutralButton("삭제", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        removeRecord(mData.get(pos).getSubPath());
+                                        removeRecord(pos);
                                     }
                                 })
                                 .show();
@@ -80,19 +80,21 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
     public void updateRecord(String keyword, String content, int position){
         String path = mData.get(position).getSubPath();
-        mDatabase = mDatabase.child(path);
+
         Record record = new Record(keyword, content, path);
         Content newContent = record;
         mData.set(position, record);
-        mDatabase.setValue(newContent);
+        mDatabase.child(path).setValue(newContent);
 
         notifyDataSetChanged();
     }
 
-    public void removeRecord(String path){
-        mDatabase = mDatabase.child(path);
+    public void removeRecord(int position){
+        String path = mData.get(position).getSubPath();
 
-        mDatabase.removeValue();
+        mDatabase.child(path).removeValue();
+        mData.remove(position);
+        notifyDataSetChanged();
     }
 
     public RecordAdapter(ArrayList<Record> list, Context context) {

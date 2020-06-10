@@ -61,27 +61,13 @@ public class BoardActivity extends AppCompatActivity {
         records = new ArrayList<>();
 
         //firebase에서 데이터 로드, 어댑터 연결
-//        final RecordAdapter adapter = new RecordAdapter(records, getApplicationContext());
-//
-
-//        records.add(new Record("key", "content", "path"));
-//        records.add(new Record("key1", "content", "path"));
-//        records.add(new Record("key2", "content", "path"));
-//        records.add(new Record("key3", "content", "path"));
-//        records.add(new Record("key4", "content", "path"));
-//        records.add(new Record("key5", "content", "path"));
-//        records.add(new Record("key6", "content", "path"));
-//        records.add(new Record("key7", "content", "path"));
-//        records.add(new Record("key8", "content", "path"));
-//        records.add(new Record("key9", "content", "path"));
-//        records.add(new Record("key10", "content", "path"));
 
         darArray = new ArrayList<>();
         final AllrecordsAdapter adapter = new AllrecordsAdapter(darArray, BoardActivity.this);
         recyclerView.setAdapter(adapter);
 
 
-//
+
 //        final DateAndRecords dateAndRecords = new DateAndRecords();
 //        dateAndRecords.setDate("20200610");
 //        dateAndRecords.setRecordArrayList(records);
