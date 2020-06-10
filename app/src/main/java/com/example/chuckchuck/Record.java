@@ -11,10 +11,6 @@ public class Record extends Content{
         this.subPath = subPath;
     }
 
-    public Record(String subPath) {
-        this.subPath = subPath;
-    }
-
     public Record(String keyword, String content, String subPath) {
         super(keyword, content);
         this.subPath = subPath;

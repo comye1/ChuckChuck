@@ -4,14 +4,35 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:background="@drawable/rect_border">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_record_date"
-        android:layout_marginLeft="5dp"
-        android:textColor="#050505"
-        android:textSize="20sp"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_record_date"
+            android:layout_marginLeft="5dp"
+            android:textColor="#050505"
+            android:textSize="20sp"/>
 
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_editPushKey"-->
+<!--            android:layout_width="24sp"-->
+<!--            android:layout_height="24sp"-->
+<!--            android:layout_gravity="right|center_vertical"-->
+<!--            android:src="@drawable/ic_edit_black_24dp"-->
+<!--            android:background="@drawable/ripple_effect"/>-->
+        <ImageButton
+            android:id="@+id/btn_addKeyWord"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/ic_add_black_24dp"
+            android:background="@drawable/ripple_effect"/>
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_all"
         android:layout_width="match_parent"

@@ -69,7 +69,7 @@ public class Frag1 extends Fragment {
         return view;
     }
 
-    String getDate(){
+    private String getDate(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M월 d일 ");
         String day = simpleDateFormat.format(new Date());
 
