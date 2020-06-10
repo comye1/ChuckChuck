@@ -1,8 +1,6 @@
 package com.example.chuckchuck;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,20 +24,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.wefika.flowlayout.FlowLayout;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.zip.Inflater;
 
 public class Frag1 extends Fragment {
     private View view;
-    private View keywordView, record1;
     private TextView tv_date;
     private LinearLayout linearScroll;
     private LayoutInflater linflater;
-    private AlertDialog.Builder builder;
 
     @Override
     public void onDetach() {
@@ -170,7 +161,6 @@ public class Frag1 extends Fragment {
                         FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
                         flowLayout.removeAllViews();
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            Toast.makeText(getContext(), "new keyword", Toast.LENGTH_SHORT).show();
                             Content content = snapshot.getValue(Content.class);
 
                             // flowLayout 전달
