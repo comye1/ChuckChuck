@@ -77,16 +77,16 @@ public class BoardActivity extends AppCompatActivity {
 //        records.add(new Record("key10", "content", "path"));
 
         darArray = new ArrayList<>();
-        final AllrecordsAdapter adapter = new AllrecordsAdapter(darArray, getApplicationContext());
+        final AllrecordsAdapter adapter = new AllrecordsAdapter(darArray, BoardActivity.this);
         recyclerView.setAdapter(adapter);
 
 
-
-        final DateAndRecords dateAndRecords = new DateAndRecords();
-        dateAndRecords.setDate("20200610");
-        dateAndRecords.setRecordArrayList(records);
-        darArray.add(dateAndRecords);
-        adapter.notifyDataSetChanged();
+//
+//        final DateAndRecords dateAndRecords = new DateAndRecords();
+//        dateAndRecords.setDate("20200610");
+//        dateAndRecords.setRecordArrayList(records);
+//        darArray.add(dateAndRecords);
+//        adapter.notifyDataSetChanged();
 
 
         mDatabase.child("Users").child(mAuth.getUid()).child("Records").child(subjectKey)
@@ -97,11 +97,11 @@ public class BoardActivity extends AppCompatActivity {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                             DateAndRecords dar = new DateAndRecords();
                             String key = snapshot.getKey();
-                            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
                             dar.setDate(key);
                             for(DataSnapshot innersnapshot : snapshot.getChildren()){
                                 Content content = innersnapshot.getValue(Content.class);
-                                String path = key + innersnapshot.getKey();//subPath
+                                String path = subjectKey + "/" + key + "/"+ innersnapshot.getKey();//subPath
                                 Record record = new Record(content.getKeyword(), content.getContent(), path);
 
                                 dar.putRecord(record);
