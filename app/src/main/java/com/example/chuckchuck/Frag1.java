@@ -150,15 +150,7 @@ public class Frag1 extends Fragment {
                 if(keyword.replace(" ", "").equals("")){ //공백 여부 검사
                     return ;
                 }
-                Content content = new Content(keyword, null);
-                mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today).push().setValue(content);
-                Toast.makeText(mContext, subjectName + " 추가 : " + content.getKeyword(), Toast.LENGTH_SHORT).show();
-                FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
-
-                // flowLayout 전달
-                TextView textView = KeywordTextView(content.getKeyword());
-                textView.setOnClickListener(onclick);
-                flowLayout.addView(textView);
+                addKeyWordTextView(record, keyword, key);
                 addEt.setText(null);
 
             }
@@ -187,6 +179,17 @@ public class Frag1 extends Fragment {
 
                     }
                 });
+    }
+
+    private void addKeyWordTextView(final View record, String keyword, String key){
+        Content content = new Content(keyword, null);
+        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today).push().setValue(content);
+        FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
+
+        // flowLayout 전달
+        TextView textView = KeywordTextView(content.getKeyword());
+        textView.setOnClickListener(onclick);
+        flowLayout.addView(textView);
     }
 
 
