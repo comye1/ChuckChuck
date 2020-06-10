@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         android:id="@+id/tv_record_keyword"
         android:textSize="16sp"
-        android:background="@drawable/ripple_effect"
+        android:background="?android:selectableItemBackground"
+        android:padding="5dp"
         android:layout_margin="5dp"/>
 
     <View
