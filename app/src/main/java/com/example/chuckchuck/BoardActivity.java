@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class BoardActivity extends AppCompatActivity {
     private String subjectKey;
     private String subjectName;
     private TextView tv_subjectName;
-    private FloatingActionButton floatingActionButton;
+    private Button btn_addRecord;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +61,8 @@ public class BoardActivity extends AppCompatActivity {
         tv_subjectName = findViewById(R.id.subjectName);
         tv_subjectName.setText(subjectName);
 
-        floatingActionButton = findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        btn_addRecord = findViewById(R.id.btn_addRecord);
+        btn_addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDatabase.child("Users").child(mAuth.getUid()).child("Records").child(subjectKey)
