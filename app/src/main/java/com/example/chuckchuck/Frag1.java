@@ -1,5 +1,6 @@
 package com.example.chuckchuck;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ public class Frag1 extends Fragment {
     private LinearLayout linearScroll;
     private LayoutInflater linflater;
     private Context mContext;
+    private AlertDialog.Builder builder;
+    private AlertDialog alertDialog;
 
     @Override
     public void onDetach() {
@@ -63,6 +66,11 @@ public class Frag1 extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+
+        builder =  new AlertDialog.Builder(mContext);
+        alertDialog = builder.setTitle("로딩중").setMessage("잠시만 기다려 주세요.").setCancelable(false).create();
+        alertDialog.show();
 
         createTodayRecords();
         return view;
@@ -123,6 +131,7 @@ public class Frag1 extends Fragment {
                             }
                             //getValue로 요일 정보 읽어와서
                         }
+                        alertDialog.dismiss();
                     }
 
                     @Override
