@@ -3,6 +3,7 @@ package com.example.chuckchuck;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,11 @@ public class Frag1 extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
+        //
+
+
         createTodayRecords();
+        //
         return view;
     }
 
