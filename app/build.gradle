@@ -1,5 +1,27 @@
+buildscript {
+
+    repositories {
+
+        jcenter()
+        google() // or mavenCentral()
+
+    }
+
+
+
+    dependencies {
+
+        classpath 'com.android.tools.build:gradle:3.5.3'
+
+    }
+
+}
+
+
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 29
