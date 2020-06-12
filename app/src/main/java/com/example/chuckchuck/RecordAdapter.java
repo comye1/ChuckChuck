@@ -1,8 +1,10 @@
 package com.example.chuckchuck;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +96,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
         mDatabase.child(path).removeValue();
         mData.remove(position);
+
         notifyDataSetChanged();
+        if(position == 0) {
+            ((Activity) context).finish();
+            Intent intent = ((Activity) context).getIntent();
+            ((Activity) context).startActivity(intent);
+        }
     }
 
     public RecordAdapter(ArrayList<Record> list, Context context) {
