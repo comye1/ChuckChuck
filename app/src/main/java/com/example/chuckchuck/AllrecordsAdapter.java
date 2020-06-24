@@ -128,6 +128,16 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
                                 }
                             })
                             .setNegativeButton("취소", null)
+                            .setNeutralButton("폴더 삭제", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String subPath = tv_record_date.getText().toString();
+                                    mDatabase.child(subPath).removeValue();
+                                    int pos = getAdapterPosition();
+                                    mData.remove(pos);
+                                    notifyDataSetChanged();
+                                }
+                            })
                             .show();
                 }
             });

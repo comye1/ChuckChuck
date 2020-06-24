@@ -81,8 +81,8 @@ public class Frag1 extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 M월 d일 ");
         day = simpleDateFormat.format(new Date());
 
-        simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        today = simpleDateFormat.format(new Date()) + "000000";
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-");
+        today = simpleDateFormat.format(new Date()) + "00-00-00";
         dayToday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK); //오늘 요일 저장
         switch(dayToday){
             case 1:

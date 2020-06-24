@@ -97,11 +97,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         mData.remove(position);
 
         notifyDataSetChanged();
-        if(position == 0) {
-            ((Activity) context).finish();
-            Intent intent = ((Activity) context).getIntent();
-            ((Activity) context).startActivity(intent);
-        }
+//        if(position == 0) {
+//            ((Activity) context).finish();
+//            Intent intent = ((Activity) context).getIntent();
+//            ((Activity) context).startActivity(intent);
+//        }
+        //제목 있어서 불필요
     }
 
     public RecordAdapter(ArrayList<Record> list, Context context) {

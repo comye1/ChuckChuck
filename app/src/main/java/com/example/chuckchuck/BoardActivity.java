@@ -111,7 +111,7 @@ public class BoardActivity extends AppCompatActivity {
 
                             for(DataSnapshot innersnapshot : snapshot.child("List").getChildren()){
                                 Content content = innersnapshot.getValue(Content.class);
-                                String path = subjectKey + "/"+ key + "/List/"+ innersnapshot.getKey();//subPath//todo: 아하 이걸 위한거였구나...!
+                                String path = subjectKey + "/"+ key + "/List/"+ innersnapshot.getKey();
                                 Record record = new Record(content.getKeyword(), content.getContent(), path);
 
                                 dar.putRecord(record);
@@ -133,7 +133,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private String makeKey(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmSS");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-SS");
         return simpleDateFormat.format(new Date());
     }
 }
