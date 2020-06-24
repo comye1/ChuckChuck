@@ -82,7 +82,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
     public void updateRecord(String keyword, String content, int position){
         String path = mData.get(position).getSubPath();
-
         Record record = new Record(keyword, content, path);
         Content newContent = record;
         mData.set(position, record);

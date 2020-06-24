@@ -49,6 +49,7 @@ public class Frag1 extends Fragment {
     private DatabaseReference mDatabase;
     private static int dayToday;
     private static String today;
+    private static String day;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -77,8 +78,8 @@ public class Frag1 extends Fragment {
     }
 
     private String getDate(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M월 d일 ");
-        String day = simpleDateFormat.format(new Date());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 M월 d일 ");
+        day = simpleDateFormat.format(new Date());
 
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         today = simpleDateFormat.format(new Date()) + "000000";
@@ -167,7 +168,7 @@ public class Frag1 extends Fragment {
         titleView.setText(subjectName);
         linearScroll.addView(record);
 
-        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today)
+        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today+"/List")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -191,7 +192,9 @@ public class Frag1 extends Fragment {
 
     private void addKeyWordTextView(final View record, String keyword, String key){
         Content content = new Content(keyword, null);
-        mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today).push().setValue(content);
+        DatabaseReference reference = mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+key+"/"+today);
+        reference.child("Title").setValue(day);
+        reference.child("List").push().setValue(content);
         FlowLayout flowLayout = (FlowLayout)record.findViewById(R.id.flowLayout);
 
         // flowLayout 전달

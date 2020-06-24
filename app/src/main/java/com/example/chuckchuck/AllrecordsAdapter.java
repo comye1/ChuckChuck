@@ -29,6 +29,7 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
     private Context context;
     private String path;
 
+
     private AlertDialog.Builder builder;
     private View dialogView;
     private EditText et_keyWord, et_content;
@@ -38,15 +39,17 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         protected RecyclerView recyclerView;
-        TextView tv_record_date ;
+        TextView tv_record_title ;
+        TextView tv_record_date;
         ImageButton btn_addKeyword;
 
         ViewHolder(final View itemView) {
             super(itemView) ;
 
             recyclerView = itemView.findViewById(R.id.recycler_all);
-            tv_record_date = itemView.findViewById(R.id.tv_record_date) ;
-            tv_record_date.setOnClickListener(new View.OnClickListener() {
+            tv_record_date = itemView.findViewById(R.id.tv_record_date);
+            tv_record_title = itemView.findViewById(R.id.tv_record_title) ;
+            tv_record_title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(recyclerView.getAdapter().getItemCount()==0){
@@ -80,11 +83,12 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
                                         Toast.makeText(context, "취소되었습니다." , Toast.LENGTH_SHORT).show();
                                         return ;
                                     }else{
-                                        String subPath = tv_record_date.getText().toString();
+//                                        String subPath = tv_record_title.getText().toString();
+                                        String subPath = tv_record_date.getText().toString() + "/List";
                                         String pushKey = mDatabase.child(subPath).push().getKey();
-                                        Record record = new Record(keyword, content, path + "/"+subPath);
+                                        Record record = new Record(keyword, content, path + "/"+subPath + "/" + pushKey);
                                         Toast.makeText(context, "New Keyword", Toast.LENGTH_SHORT).show();
-                                        mDatabase.child(subPath).push().setValue(record);
+                                        mDatabase.child(subPath).child(pushKey).setValue(record);
                                         int pos = getAdapterPosition();
                                         mData.get(pos).putRecord(record);
                                         notifyDataSetChanged();
@@ -128,8 +132,10 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull AllrecordsAdapter.ViewHolder holder, int position) {
-        String title = mData.get(position).getDate();
-        holder.tv_record_date.setText(title);
+        String title = mData.get(position).getTitle();
+        String date = mData.get(position).getDate();
+        holder.tv_record_title.setText(title);
+        holder.tv_record_date.setText(date);
 
         RecordAdapter adapter = new RecordAdapter(mData.get(position).getRecordArrayList(), context);
 

@@ -65,8 +65,10 @@ public class BoardActivity extends AppCompatActivity {
         btn_addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase.child("Users").child(mAuth.getUid()).child("Records").child(subjectKey)
-                        .child(makeKey()).push().child("keyword").setValue("sample keyword");
+                String key = makeKey();
+                DatabaseReference reference = mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+subjectKey).child(key);
+                reference.child("Title").setValue(key);//임시 제목을 key로 지정
+                reference.child("List").push().child("keyword").setValue("sample keyword");//sample keyword를 넣음
                 finish();
                 startActivity(getIntent());
                 //액티비티 종료 후 다시 실행  ---> 함수를 만들지 않아도 리사이클러뷰 자동으로 업데이트 됨...ㅎㅎ
@@ -102,11 +104,14 @@ public class BoardActivity extends AppCompatActivity {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                             DateAndRecords dar = new DateAndRecords();
                             String key = snapshot.getKey();
+                            String title = snapshot.child("Title").getValue().toString();//Title 값을 가져옴
 //                            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
+                            dar.setTitle(title);//
                             dar.setDate(key);
-                            for(DataSnapshot innersnapshot : snapshot.getChildren()){
+
+                            for(DataSnapshot innersnapshot : snapshot.child("List").getChildren()){
                                 Content content = innersnapshot.getValue(Content.class);
-                                String path = subjectKey + "/" + key + "/"+ innersnapshot.getKey();//subPath
+                                String path = subjectKey + "/"+ key + "/List/"+ innersnapshot.getKey();//subPath//todo: 아하 이걸 위한거였구나...!
                                 Record record = new Record(content.getKeyword(), content.getContent(), path);
 
                                 dar.putRecord(record);

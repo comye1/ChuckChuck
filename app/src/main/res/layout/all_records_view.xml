@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_record_date"
+            android:id="@+id/tv_record_title"
             android:layout_marginLeft="5dp"
             android:textColor="#050505"
             android:textSize="20sp"/>
@@ -24,6 +24,34 @@
 <!--            android:layout_gravity="right|center_vertical"-->
 <!--            android:src="@drawable/ic_edit_black_24dp"-->
 <!--            android:background="@drawable/ripple_effect"/>-->
+        <ImageButton
+            android:id="@+id/btn_editTitle"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/ic_edit_black_24dp"
+            android:background="@drawable/ripple_effect"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_record_date"
+            android:layout_marginLeft="5dp"
+            android:textSize="12sp"/>
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/btn_editPushKey"-->
+        <!--            android:layout_width="24sp"-->
+        <!--            android:layout_height="24sp"-->
+        <!--            android:layout_gravity="right|center_vertical"-->
+        <!--            android:src="@drawable/ic_edit_black_24dp"-->
+        <!--            android:background="@drawable/ripple_effect"/>-->
         <ImageButton
             android:id="@+id/btn_addKeyWord"
             android:layout_width="24sp"
