@@ -32,7 +32,7 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
 
     private AlertDialog.Builder builder;
     private View dialogView;
-    private EditText et_keyWord, et_content;
+    private EditText et_keyWord, et_content, et_title;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -42,6 +42,7 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
         TextView tv_record_title ;
         TextView tv_record_date;
         ImageButton btn_addKeyword;
+        ImageButton btn_editTitle;
 
         ViewHolder(final View itemView) {
             super(itemView) ;
@@ -87,10 +88,41 @@ public class AllrecordsAdapter extends RecyclerView.Adapter<AllrecordsAdapter.Vi
                                         String subPath = tv_record_date.getText().toString() + "/List";
                                         String pushKey = mDatabase.child(subPath).push().getKey();
                                         Record record = new Record(keyword, content, path + "/"+subPath + "/" + pushKey);
-                                        Toast.makeText(context, "New Keyword", Toast.LENGTH_SHORT).show();
                                         mDatabase.child(subPath).child(pushKey).setValue(record);
                                         int pos = getAdapterPosition();
                                         mData.get(pos).putRecord(record);
+                                        notifyDataSetChanged();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("취소", null)
+                            .show();
+                }
+            });
+
+            btn_editTitle = itemView.findViewById(R.id.btn_editTitle);
+            btn_editTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    dialogView = inflater.inflate(R.layout.dialog_title, null);
+                    et_title = dialogView.findViewById(R.id.et_title);
+                    et_title.setText(tv_record_title.getText());
+                    builder = new AlertDialog.Builder(context);
+                    builder.setTitle("제목 변경");
+                    builder.setView(dialogView)
+                            .setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String title = et_title.getText().toString();
+                                    if(title.replace(" ", "").equals("")){
+                                        Toast.makeText(context, "취소되었습니다." , Toast.LENGTH_SHORT).show();
+                                        return ;
+                                    }else{
+                                        String subPath = tv_record_date.getText().toString() + "/Title";
+                                        mDatabase.child(subPath).setValue(title);
+                                        int pos = getAdapterPosition();
+                                        mData.get(pos).setTitle(title);
                                         notifyDataSetChanged();
                                     }
                                 }
