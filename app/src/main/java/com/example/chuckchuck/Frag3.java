@@ -227,7 +227,9 @@ public class Frag3 extends Fragment{
     }
     //계정삭제(탈퇴)
     private void revokeAccess(){
+        mDatabase.child("Users").child(mAuth.getUid()).removeValue();
         mAuth.getCurrentUser().delete();
+        FirebaseAuth.getInstance().signOut();
         getActivity().finishAffinity();
     }
     //새로 추가
