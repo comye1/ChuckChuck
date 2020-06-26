@@ -68,7 +68,7 @@ public class BoardActivity extends AppCompatActivity {
                 String key = makeKey();
                 DatabaseReference reference = mDatabase.child("Users/"+mAuth.getUid()+"/Records/"+subjectKey).child(key);
                 reference.child("Title").setValue(key);//임시 제목을 key로 지정
-                reference.child("List").push().child("keyword").setValue("sample keyword");//sample keyword를 넣음
+//                reference.child("List").push().child("keyword").setValue("sample keyword");//sample keyword를 넣음
                 finish();
                 startActivity(getIntent());
                 //액티비티 종료 후 다시 실행  ---> 함수를 만들지 않아도 리사이클러뷰 자동으로 업데이트 됨...ㅎㅎ
