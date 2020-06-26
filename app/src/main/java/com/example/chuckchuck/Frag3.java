@@ -261,8 +261,11 @@ public class Frag3 extends Fragment{
     //삭제
     private void deleteFromList(int position){
         String key = keyList.get(position);
-        DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid()).child("TimeTable").child(key);
-        reference.removeValue();
+        DatabaseReference reference = mDatabase.child("Users").child(mAuth.getUid());
+
+        reference.child("TimeTable").child(key).removeValue();
+        reference.child("Records").child(key).removeValue();
+
 
         subjectList.remove(position);
         dayList.remove(position);
