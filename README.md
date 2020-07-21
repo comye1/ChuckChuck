@@ -1,6 +1,12 @@
 # ChuckChuck
 안드로이드 개인프로젝트
 
+## 7.21일자 개선할 사항
+- textSize 조절
+- text 문구 수정
+- 모두 펼치기 / 모두 접기 기능
+- 스크롤 아래로 내리기 기능
+
 ## 라이브러리 사용 FlowLayout
 https://github.com/blazsolar/FlowLayout
 
