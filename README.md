@@ -18,7 +18,7 @@
 https://user-images.githubusercontent.com/50735594/140607086-b4618ef8-361a-4847-8a9e-89115b75f30f.mp4
 
 ## 어플 다운로드 
-(링크)[https://drive.google.com/file/u/1/d/1ggHxyGuBnX2XutaKJbbal_5WjcnYs2yU/view?usp=sharing]
+[드라이브 링크](https://drive.google.com/file/u/1/d/1ggHxyGuBnX2XutaKJbbal_5WjcnYs2yU/view?usp=sharing)
 
 
 ## 7.21일자 개선할 사항
